@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录页</title>
+    <script src="/res/layui257/layui.js"></script>
+    <link rel="stylesheet" href="/res/layui257/css/layui.css">
+</head>
+<body>
+        <div >
+            <ul class="layui-nav">
+                <li class="layui-nav-item "><span style="color: #008918">超市信息管理平台</span></li>
+                <li class="layui-nav-item" style="float: right;margin-right: 50px">你好！请登录</li>
+            </ul>
+            <div >
+                <form class="layui-form" action="" onsubmit="return false" style="margin: 200px auto;width: 400px">
+                    <div class="layui-form-item" style="text-align: center">
+                        <label class="layui-form-label">账号：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" required  lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码:</label>
+                        <div class="layui-input-inline">
+                            <input type="password" name="pwd" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-danger" lay-submit lay-filter="formDemo">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            layui.use(['form','jquery'], function(){
+                var form = layui.form;
+                var $ = layui.jquery;
+                form.on('submit(formDemo)', function(data){
+                    // layer.msg(JSON.stringify(data.field));
+                    var field = data.field;
+                    console.log(field)
+                    $.ajax({
+                            url:'/api/userInfo/selectOne',
+                            type:'post',
+                            data:data.field,
+                            dataType:'json',
+                            success:function (res) {
+                                console.log(res)
+                                if (res.code ==0){
+                                    window.location.href="/page/goods_info_ui"
+                                }
+                            }
+                    });
+                    return false;
+                });
+            });
+        </script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品展示</title>
+    <script src="/res/layui257/layui.js"></script>
+    <link rel="stylesheet" href="/res/layui257/css/layui.css">
+</head>
+<body>
+        <div >
+            <ul class="layui-nav">
+                <li class="layui-nav-item "><span style="color: #008918">超市信息管理平台</span></li>
+                <li class="layui-nav-item" style="float: right;margin-right: 50px">你好！欢迎<span th:text="${session.userInfo.name}"></span> <span id="logOut">退出</span></li>
+            </ul>
+        </div>
+
+        <script type="text/html" id="addDom">
+            <form class="layui-form" action="" onsubmit="return false">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品类型</label>
+                    <div class="layui-input-inline">
+                        <select name="goodsType" lay-verify="required" lay-search lay-filter="huopin">
+                            <option value="" selected="">请选择货品类型</option>
+                            <option value="饮料" >饮料</option>
+                            <option value="食品" >食品</option>
+                            <option value="办公" >办公</option>
+                            <option value="洗漱" >洗漱</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">货品名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsName" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">货品售价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsRent" required  lay-verify="required"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">货品数量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsCount" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div><div class="layui-form-item">
+                <label class="layui-form-label">供应商</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="supplier" required  lay-verify="required"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="telphone" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsState" required  lay-verify="required" value="0" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide"   >
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="addUserLayuiId"  id="addBtnUser"   >添加一个用户</button>
+                    </div>
+                </div>
+            </form>
+        </script>
+        <script type="text/html" id="updateDom">
+            <form class="layui-form" action="" onsubmit="return false" lay-filter="updateForm">
+                <div class="layui-form-item layui-hide">
+                    <label class="layui-form-label">货品编号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsId" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品类型</label>
+                    <div class="layui-input-inline">
+                        <select name="goodsType" lay-verify="required" lay-search lay-filter="huopin">
+                            <option value="" selected="">请选择货品类型</option>
+                            <option value="饮料" >饮料</option>
+                            <option value="食品" >食品</option>
+                            <option value="办公" >办公</option>
+                            <option value="洗漱" >洗漱</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">货品名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsName" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">货品售价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsRent" required  lay-verify="required"  autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">货品数量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsCount" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div><div class="layui-form-item">
+                <label class="layui-form-label">供应商</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="supplier" required  lay-verify="required"  autocomplete="off" class="layui-input">
+                </div>
+            </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="telphone" required  lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="goodsState" required  lay-verify="required" value="0" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide"   >
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="updateUserLayuiId"  id="updateBtnUser"   >添加一个用户</button>
+                    </div>
+                </div>
+            </form>
+        </script>
+
+
+
+        <form class="layui-form layui-form-pane"  onsubmit="return false"  >
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        <input type="text"   class="layui-input"  id="goodsType"  >
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button type="button" class="layui-btn"  id="searchBtn"  >搜索</button>
+                </div>
+
+                <div class="layui-inline">
+                    <button type="button" class="layui-btn"  id="addBtn"  >添加一个</button>
+                </div>
+            </div>
+        </form>
+
+
+
+
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+            <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        </div>
+    </script>
+
+    <script type="text/html" id="barDemo">
+        {{# if(d.goodsState === 1){ }}
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        {{# } else { }}
+        <a class="layui-btn layui-btn-xs" lay-event="edit">详情</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        {{# } }}
+    </script>
+
+    <script>
+        layui.use(['table','jquery','layer','form'], function(){
+            var table = layui.table;
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var form = layui.form;
+            $("#logOut").click(function () {
+                $.ajax({
+                        url:'/api/goodsInfo/logout',
+                        type:'post',
+                        dataType:'json',
+                        success:function (res) {
+                            if (res.code==0) {
+                                layer.alert('退出成功', {icon: 1})
+                                window.location.href="/page/user_login_ui"
+                            }
+                        }
+                });
+            })
+            table.render({
+                id:"xiexiedetable",
+                elem: '#test'
+                ,url:'/api/goodsInfo/selectAllByPage'/*tpa=http://www.layui.com/test/table/demo1.json*/
+                ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '提示'
+                    ,layEvent: 'LAYTABLE_TIPS'
+                    ,icon: 'layui-icon-tips'
+                }]
+                ,title: '用户数据表'
+                ,cols: [ [
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field:'goodsId', title:'货品编号', width:80, }
+                    ,{field:'goodsType', title:'货品类型', width:120, }
+                    ,{field:'goodsName', title:'货品名称', width:80, }
+                    ,{field:'goodsRent', title:'货品售价', width:100}
+                    ,{field:'goodsCount', title:'货品数量',width:100}
+                    ,{field:'supplier', title:'供货商', width:80, }
+                    ,{field:'telphone', title:'电话', width:120}
+                    ,{field:'goodsState', title:'上架情况', width:100, templet: function(res){
+                        if (res.goodsState==0){
+                           return  "未上架"
+                        }else  if (res.goodsState==1){
+                            return "已上架"
+                        }
+                        } }
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                ] ]
+                ,page: true
+                ,limit:5
+                ,parseData: function(res){ //res 即为原始返回的数据
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.pageInfo.list //解析数据列表
+                    };
+                }
+            });
+            //头工具栏事件
+            table.on('toolbar(test)', function(obj){
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch(obj.event){
+                    case 'getCheckData':
+                        var data = checkStatus.data;
+                        layer.alert(JSON.stringify(data));
+                        break;
+                    case 'getCheckLength':
+                        var data = checkStatus.data;
+                        layer.msg('选中了：'+ data.length + ' 个');
+                        break;
+                    case 'isAll':
+                        layer.msg(checkStatus.isAll ? '全选': '未全选');
+                        break;
+
+                    //自定义头工具栏右侧图标 - 提示
+                    case 'LAYTABLE_TIPS':
+                        layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                        break;
+                };
+            });
+
+            //监听行工具事件
+            table.on('tool(test)', function(obj){
+                var data = obj.data;
+                console.log(data,"88888888888888888888888888")
+                //console.log(obj)
+                if(obj.event === 'del'){
+                    layer.confirm('真的删除行么', function(index){
+                        var goodsId = data.goodsId;
+                        console.log(goodsId)
+                        $.ajax({
+                            url:"/api/goodsInfo/deleteById",
+                            type:"post",
+                            data:{
+                                "id" : goodsId
+                            },
+                            dataType:'JSON',
+                            success:function (res) {
+                                if (res.code==200) {
+                                    layer.alert('删除成功', {icon: 1})
+                                }else{
+                                    layer.alert('删除失败', {icon: 2})
+                                }
+                            }
+                        })
+                        table.reload('xiexiedetable', {
+                            url: '/api/goodsInfo/selectAllByPage'
+                            ,where: {
+                            } //设定异步数据接口的额外参数
+                            //,height: 300
+                            ,page:{
+                                curr: 1 // 冲第一页开始
+                            }
+                        });
+                        layer.close(index);
+                    });
+                } else if(obj.event === 'edit'){
+                    layer.open({
+                        type: 1 //此处以iframe举例
+                        ,title: '信息发布'
+                        ,area: ['500px', '500px'],
+                        content: $("#updateDom").html(),
+                        success:function (index) {
+                            form.val("updateForm", data  );
+                        }
+                        ,btn: ['上架', '关闭']  //只是为了演示
+                        ,yes: function(index) {
+                            form.render(),
+                            $("#updateBtnUser").click();
+                            $("input[name='goodsState']").val("1")
+                            layer.close(index)
+                        }
+                        ,btn2: function(){
+                            layer.closeAll();
+                        }
+                    })
+                }
+            });
+
+
+            $("#searchBtn").click(function () {
+                var type = $("#goodsType").val();
+                console.log(type)
+
+                table.reload('xiexiedetable', {
+                    url: '/api/goodsInfo/selectAllByPage'
+                    ,where: {
+                        name:type
+                    } //设定异步数据接口的额外参数
+                    //,height: 300
+                    ,page:{
+                        curr: 1 // 冲第一页开始
+                    }
+                });
+            })
+
+            $("#addBtn").click(function () {
+
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '信息发布'
+                    ,area: ['500px', '500px'],
+                    content: $("#addDom").html()
+                    ,btn: ['添加', '全部关闭']  //只是为了演示
+                    ,yes: function(index) {
+                        form.render(),
+                            $("#addBtnUser").click();
+                        layer.close(index)
+                        table.reload('xiexiedetable', {
+                            url: '/api/goodsInfo/selectAllByPage'
+                            ,where: {
+                            } //设定异步数据接口的额外参数
+                            //,height: 300
+                            ,page:{
+                                curr: 1 // 冲第一页开始
+                            }
+                        });
+                    }
+                    ,btn2: function(){
+                        layer.closeAll();
+                    }
+                })
+                form.render()
+            })
+            form.on('submit(addUserLayuiId)', function(data){
+                console.log(data.field)
+                var paramObj =data.field
+                $.ajax({
+                        url:'/api/goodsInfo/insert',
+                        type:'post',
+                        data:JSON.stringify(paramObj),
+                        contentType:'application/json',
+                        dataType:'json',
+                        success:function (res) {
+                            console.log(res)
+                            if (res.code==200){
+                                layer.alert("添加成功" , {icon: 1})
+                            }else {
+                                layer.alert("添加失败" , {icon: 2})
+                            }
+                        }
+                });
+                table.reload('xiexiedetable', {
+                    url: '/api/goodsInfo/selectAllByPage'
+                    ,where: {
+                    } //设定异步数据接口的额外参数
+                    //,height: 300
+                    ,page:{
+                        curr: 1 // 冲第一页开始
+                    }
+                });
+
+                return false;
+            });
+            form.on('submit(updateUserLayuiId)', function(data){
+                data.field.goodsState ="1",
+                console.log(data.field)
+                var paramObj =data.field
+                $.ajax({
+                        url:'/api/goodsInfo/update',
+                        type:'post',
+                        data:JSON.stringify(paramObj),
+                        contentType:'application/json',
+                        dataType:'json',
+                        success:function (res) {
+                            console.log(res)
+                            if (res.code==200){
+                                layer.alert("修改成功" , {icon: 1})
+                            }else {
+                                layer.alert("修改失败" , {icon: 2})
+                            }
+                        }
+                });
+                table.reload('xiexiedetable', {
+                    url: '/api/goodsInfo/selectAllByPage'
+                    ,where: {
+                    } //设定异步数据接口的额外参数
+                    //,height: 300
+                    ,page:{
+                        curr: 1 // 冲第一页开始
+                    }
+                });
+
+                return false;
+            });
+
+        });
+    </script>
+
+</body>
+</html>
